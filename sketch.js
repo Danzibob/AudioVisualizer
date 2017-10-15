@@ -34,7 +34,6 @@ function draw() {
     //Deal with playing song & do fft
     if(typeof song != "undefined" && song.isLoaded() && !started) { 
         started = true
-        loader.classList.remove("loading")
         song.play()
         song.setVolume(0.5)
         fft = new p5.FFT()
@@ -42,8 +41,8 @@ function draw() {
     }
     
     //Drawing settings
-    background(51)
-    stroke(200)
+    background(200)
+    stroke(51)
     strokeWeight(1)
     fill(0,128,128,100)
 
