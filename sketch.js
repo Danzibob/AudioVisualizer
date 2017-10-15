@@ -2,6 +2,9 @@ var fft, // Allow us to analyze the song
 	numBars = 1024, // The number of bars to use; power of 2 from 16 to 1024
 	song; // The p5 sound object
 
+bands = [64,125,250,500,1000,2000,4000,8000,20000]
+
+
 // Load our song
 var loader = document.querySelector(".loader");
 document.getElementById("audiofile").onchange = function(event) {
@@ -35,24 +38,18 @@ function draw() {
 	}
 	
 	background(51)
+	stroke(200)
+	strokeWeight(1)
+	fill(0,128,128,100)
 
 	if(typeof song != "undefined" && started){//&& song.isPlaying()) {
 		var spectrum = fft.analyze()
-
-		stroke(200)
-		strokeWeight(1)
-		fill(0,128,128,100)
-
-		beginShape()
-		vertex(0,height)
-		var angle = TWO_PI/numBars;
-
-		for(var i = 0; i < numBars; i++) {
-			vertex(width/numBars*i,height-spectrum[i]*2)
-			angle += TWO_PI/numBars
+		for(let i=0; i<8; i++){
+			let h = fft.getEnergy(bands[i],bands[i+1])
+			rect(i*width/8,height,width/8,-2*h)
 		}
-		vertex(width,height)
-		endShape(CLOSE)
+		
+
 	}
 }
 
