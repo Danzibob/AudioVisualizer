@@ -8,9 +8,7 @@ var fft,            // Allow us to analyze the song    |
 //(Would be able to have overlapping channels in the circuit)
 let bands = [64,125,250,500,1000,2000,4000,8000,20000]
 
-
 //=======================Load the song================================+
-var loader = document.querySelector(".loader");                     //|
 document.getElementById("audiofile").onchange = function(event) {   //|
     if(event.target.files[0]) {                                     //|
         // Catch already playing songs                              //|
@@ -20,7 +18,6 @@ document.getElementById("audiofile").onchange = function(event) {   //|
         }                                                           //|
         // Load our new song                                        //|
         song = loadSound(URL.createObjectURL(event.target.files[0]))//|
-        loader.classList.add("loading")                             //|
     }                                                               //|
 }                                                                   //|
 //====================================================================+
