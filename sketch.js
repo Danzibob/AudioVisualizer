@@ -26,7 +26,8 @@ document.getElementById("audiofile").onchange = function(event) {   //|
 var canvas
 var started = false
 function setup() { // Setup p5.js
-    canvas = createCanvas(600,600)
+    canvas = createCanvas(600,200)
+    colorMode(RGB,1,1,1,1)
 }
 
 //Runs every animation frame (60 fps)
@@ -35,13 +36,13 @@ function draw() {
     if(typeof song != "undefined" && song.isLoaded() && !started) { 
         started = true
         song.play()
-        song.setVolume(0.5)
+        song.setVolume(1)
         fft = new p5.FFT()
         fft.waveform(numBars)
     }
     
     //Drawing settings
-    background(200)
+    background(0)
     stroke(51)
     strokeWeight(1)
     fill(0,128,128,100)
@@ -53,9 +54,21 @@ function draw() {
         //For each virtaul band
         for(let i=0; i<8; i++){
             //Get the value for that band
-            let h = fft.getEnergy(bands[i],bands[i+1])
+            let h = fft.getEnergy(bands[i],bands[i+1])/255
             //Draw a thing based on that value
-            rect(i*width/8,height,width/8,-2*h)
+            //       (r,g,b,a,x,y)
+            drawLight(i/8, 0, 1-(i/8), h, (i+.5)*width/8, height-50)
         }
+    }
+}
+
+
+function drawLight(r,g,b,trans,x,y){
+    let size = 80*sqrt(r+g+b)
+    strokeWeight(3)
+    noFill()
+    for(i=0; i < size; i+=1){
+        stroke(r,g,b,Math.pow(trans*i/size,2))
+        ellipse(x,y,(size-i)*2)
     }
 }
